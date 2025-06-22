@@ -14,15 +14,21 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
     "tsconfig-paths": "^4.2.0",
-    "typeorm": "^0.3.25"
+    "typeorm": "^0.3.25",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/crypto-js": "^4.2.2",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.3",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
