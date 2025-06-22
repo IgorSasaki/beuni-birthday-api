@@ -1,8 +1,8 @@
 module.exports = {
+  arrowParens: 'avoid',
+  endOfLine: 'auto',
+  plugins: [],
   semi: false,
   singleQuote: true,
-  arrowParens: 'avoid',
-  trailingComma: 'none',
-  endOfLine: 'auto',
-  plugins: []
+  trailingComma: 'none'
 }

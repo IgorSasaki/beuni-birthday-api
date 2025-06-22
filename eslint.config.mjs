@@ -1,9 +1,8 @@
-import tsEslint from 'typescript-eslint'
-import prettierPlugin from 'eslint-plugin-prettier'
-import importHelpersPlugin from 'eslint-plugin-import-helpers'
-import unusedImportsPlugin from 'eslint-plugin-unused-imports'
-import perfectionistPlugin from 'eslint-plugin-perfectionist'
-// import globals from 'globals' // Removido
+import tsEslint from 'typescript-eslint';
+import prettierPlugin from 'eslint-plugin-prettier';
+import importHelpersPlugin from 'eslint-plugin-import-helpers';
+import unusedImportsPlugin from 'eslint-plugin-unused-imports';
+import perfectionistPlugin from 'eslint-plugin-perfectionist';
 
 export default tsEslint.config(
   {
@@ -16,9 +15,6 @@ export default tsEslint.config(
         project: true,
         tsconfigRootDir: import.meta.dirname,
       },
-      // globals: { // Removido
-      //   ...globals.node,
-      // },
     },
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
@@ -34,13 +30,11 @@ export default tsEslint.config(
     ],
     rules: {
       'prettier/prettier': 'error',
-
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/no-empty-interface': 'off',
       '@typescript-eslint/no-useless-constructor': 'off',
-
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'error',
@@ -54,7 +48,6 @@ export default tsEslint.config(
           ignoreRestSiblings: true,
         },
       ],
-
       'perfectionist/sort-interfaces': 'error',
       'perfectionist/sort-jsx-props': 'off',
       'perfectionist/sort-objects': [
@@ -65,7 +58,6 @@ export default tsEslint.config(
         },
       ],
       'perfectionist/sort-imports': 'off',
-
       'import-helpers/order-imports': [
         'warn',
         {
@@ -79,12 +71,25 @@ export default tsEslint.config(
           alphabetize: { order: 'asc', ignoreCase: true },
         },
       ],
-
       'no-useless-constructor': 'off',
       'no-use-before-define': 'off',
       camelcase: 'off',
       'space-before-function-paren': 'off',
       'sort-imports': 'off',
+    },
+  },
+  {
+    files: ['**/*.config.js', '.eslintrc.js'],
+    languageOptions: {
+      parser: undefined,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: false,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
     },
   },
   {
@@ -94,4 +99,4 @@ export default tsEslint.config(
       '@typescript-eslint/no-unused-expressions': 'off',
     },
   }
-)
+);
