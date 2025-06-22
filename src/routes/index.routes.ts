@@ -1,6 +1,7 @@
 import { Router } from 'express'
 
 import { AuthController } from '@/controllers/auth.controller'
+import { DashboardController } from '@/controllers/dashboard.controller'
 import { EmployeeController } from '@/controllers/employee.controller'
 import { GiftsController } from '@/controllers/gifts.controller'
 import { authenticate } from '@/middlewares/auth.middleware'
@@ -8,11 +9,14 @@ import { authenticate } from '@/middlewares/auth.middleware'
 const AppRoutes = Router()
 
 const authController = new AuthController()
+const dashboardController = new DashboardController()
 const employeeController = new EmployeeController()
 const giftsController = new GiftsController()
 
 AppRoutes.post('/users', authController.register)
 AppRoutes.post('/auth', authController.login)
+
+AppRoutes.get('/dashboard', authenticate, dashboardController.getDashboard)
 
 AppRoutes.post('/employees', authenticate, employeeController.createEmployee)
 AppRoutes.get('/employees', authenticate, employeeController.getEmployees)
