@@ -35,4 +35,24 @@ export class EmployeeService {
       }
     })
   }
+
+  async getEmployeeById(employeeId: string) {
+    const employee = await this.repository.findOne({
+      relations: ['createdBy'],
+      where: {
+        employeeId: employeeId
+      }
+    })
+
+    if (!employee) {
+      throw new Error('Employee not found')
+    }
+
+    const { password, ...safeUser } = employee.createdBy
+
+    return {
+      ...employee,
+      createdBy: safeUser
+    }
+  }
 }
