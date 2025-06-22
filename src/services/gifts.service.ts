@@ -36,6 +36,30 @@ export class GiftsService {
     })
   }
 
+  public async getGiftBySendTo(employeeId: string) {
+    const gift = await this.repository.findOne({
+      order: {
+        createdAt: 'DESC'
+      },
+      relations: ['createdBy', 'sendTo'],
+      where: {
+        sendTo: {
+          employeeId: employeeId
+        }
+      }
+    })
+
+    if (!gift) {
+      return null
+    }
+
+    const { password, ...safeUser } = gift.createdBy
+    return {
+      ...gift,
+      createdBy: safeUser
+    }
+  }
+
   public async getGiftById(giftId: string) {
     return await this.repository.findOne({
       relations: ['createdBy', 'sendTo'],
