@@ -57,6 +57,7 @@ export class EmployeeController {
       response.status(201).json(savedEmployee)
     } catch (error) {
       console.error('[EmployeeController::createEmployee]', error)
+
       response.status(500).json({ message: 'Internal server error' })
     }
   }
@@ -70,6 +71,25 @@ export class EmployeeController {
       response.status(200).json(employees)
     } catch (error) {
       console.error('[EmployeeController::getEmployees]', error)
+
+      response.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  public async getEmployeeById(request: Request, response: Response) {
+    const { employeeId } = request.params
+
+    try {
+      const employee = await employeeService.getEmployeeById(employeeId)
+
+      if (!employee) {
+        response.status(404).json({ message: 'Employee not found' })
+      }
+
+      response.status(200).json(employee)
+    } catch (error) {
+      console.error('[EmployeeController::getEmployeeById]', error)
+
       response.status(500).json({ message: 'Internal server error' })
     }
   }
