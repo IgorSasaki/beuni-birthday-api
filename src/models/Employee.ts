@@ -15,6 +15,7 @@ export interface Employee {
   number: string
   position: string
   state: string
+  status?: string
   street: string
   updatedAt: Date
 }
