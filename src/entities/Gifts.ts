@@ -4,7 +4,8 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm'
 
 import { Employee } from './Employee'
@@ -28,4 +29,7 @@ export class Gifts {
 
   @CreateDateColumn()
   createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
 }
