@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 
 import { AppDataSource } from '@/config/data-source'
 import { User } from '@/entities/User'
-import { UserService } from '@/services/user.services'
+import { UserService } from '@/services/user.service'
 import { loginUserSchema } from '@/validators/login-user.validator'
 import { registerUserSchema } from '@/validators/register-user.validator'
 
