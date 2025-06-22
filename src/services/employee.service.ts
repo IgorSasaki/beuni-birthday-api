@@ -45,7 +45,7 @@ export class EmployeeService {
     })
 
     if (!employee) {
-      throw new Error('Employee not found')
+      return null
     }
 
     const { password, ...safeUser } = employee.createdBy
