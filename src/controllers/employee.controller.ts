@@ -124,8 +124,9 @@ export class EmployeeController {
 
       if (typeof status === 'string') {
         const normalizedStatus = normalizeString(status)
-        finalResult = employeesWithStatus.filter(employee =>
-          normalizeString(employee.status).includes(normalizedStatus)
+
+        finalResult = employeesWithStatus.filter(
+          employee => normalizeString(employee.status) === normalizedStatus
         )
       }
 
