@@ -60,6 +60,14 @@ export class EmployeeController {
 
       const savedEmployee = await employeeService.createEmployee(newEmployee)
 
+      const newGiftRequest = giftsRepository.create({
+        createdBy: request.user,
+        sendTo: savedEmployee,
+        status: 'NOT_REQUESTED'
+      })
+
+      await giftsService.createGiftRequest(newGiftRequest)
+
       response.status(201).json(savedEmployee)
     } catch (error) {
       console.error('[EmployeeController::createEmployee]', error)
@@ -70,13 +78,9 @@ export class EmployeeController {
 
   public async getEmployees(request: Request, response: Response) {
     try {
-      const { department, month, searchText, status } = request.query
-      const userId = request.user?.userId
+      const userId = request.user?.userId as string
 
-      if (!userId) {
-        response.status(401).json({ message: 'Unauthorized' })
-        return
-      }
+      const { department, month, searchText, status } = request.query
 
       let employees = await employeeService.listEmployeesByCreatedBy(userId)
 
