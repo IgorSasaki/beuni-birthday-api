@@ -5,6 +5,7 @@ import { Employee } from '@/entities/Employee'
 import { Gifts } from '@/entities/Gifts'
 import { EmployeeService } from '@/services/employee.service'
 import { GiftsService } from '@/services/gifts.service'
+import { normalizeString } from '@/utils/helpers/normalizeString'
 
 const employeeRepository = AppDataSource.getRepository(Employee)
 const employeeService = new EmployeeService(employeeRepository)
@@ -43,8 +44,48 @@ export class GiftsController {
   public async getGifts(request: Request, response: Response) {
     try {
       const userId = request.user?.userId as string
+      const { department, month, searchText, status } = request.query
 
-      const gifts = await giftService.listGiftsByCreatedBy(userId)
+      let gifts = await giftService.listGiftsByCreatedBy(userId)
+
+      if (typeof searchText === 'string') {
+        const search = normalizeString(searchText)
+
+        gifts = gifts.filter(gift =>
+          [
+            gift.sendTo.fullName,
+            gift.sendTo.position,
+            gift.sendTo.department
+          ].some(field => normalizeString(field).includes(search))
+        )
+      }
+
+      if (typeof department === 'string') {
+        const dept = normalizeString(department)
+
+        gifts = gifts.filter(gift =>
+          normalizeString(gift.sendTo.department).includes(dept)
+        )
+      }
+
+      if (typeof month === 'string' && !isNaN(+month)) {
+        const monthNumber = parseInt(month, 10)
+
+        if (monthNumber < 1 || monthNumber > 12) {
+          response.status(400).json({ message: 'Invalid month number' })
+        }
+        gifts = gifts.filter(
+          employee => employee.sendTo.birthDate.getMonth() + 1 === monthNumber
+        )
+      }
+
+      if (typeof status === 'string') {
+        const normalizedStatus = normalizeString(status)
+
+        gifts = gifts.filter(
+          gift => normalizeString(gift.status) === normalizedStatus
+        )
+      }
 
       response.status(200).json(gifts)
     } catch (error) {
