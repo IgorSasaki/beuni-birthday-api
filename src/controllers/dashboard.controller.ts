@@ -26,9 +26,7 @@ export class DashboardController {
       const pendingGifts = giftsThisMonth.filter(
         gift => gift.status === 'PENDING'
       )
-      const sendingGifts = giftsThisMonth.filter(
-        gift => gift.status === 'SENDING'
-      )
+      const sendingGifts = giftsThisMonth.filter(gift => gift.status === 'SENT')
 
       response.status(200).json({
         birthdaysThisMonth,
