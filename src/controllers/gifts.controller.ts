@@ -21,12 +21,13 @@ export class GiftsController {
 
       if (!employee) {
         response.status(404).json({ message: 'Employee not found' })
+        return
       }
 
       const newGift = giftRepository.create({
         createdBy: request.user,
         sendTo: employee,
-        status: 'pending'
+        status: 'PENDING'
       })
 
       const savedGift = await giftService.createGiftRequest(newGift)
