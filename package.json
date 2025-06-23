@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/server.ts",
     "build": "tsc",
+    "start": "node dist/server.js",
     "lint": "eslint . --ext .ts,.tsx",
     "prepare": "husky",
     "commit": "git-cz"
