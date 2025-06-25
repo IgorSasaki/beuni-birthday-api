@@ -16,7 +16,7 @@ export class Gifts {
   @PrimaryGeneratedColumn('uuid')
   giftId!: string
 
-  @ManyToOne(() => Employee)
+  @ManyToOne(() => Employee, { cascade: true })
   @JoinColumn({ name: 'sendTo' })
   sendTo!: Employee
 
