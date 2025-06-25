@@ -25,6 +25,16 @@ AppRoutes.get(
   authenticate,
   employeeController.getEmployeeById
 )
+AppRoutes.put(
+  '/employees/:employeeId',
+  authenticate,
+  employeeController.updateEmployee
+)
+AppRoutes.delete(
+  '/employees/:employeeId',
+  authenticate,
+  employeeController.deleteEmployee
+)
 
 AppRoutes.post('/gifts', authenticate, giftsController.createGiftRequest)
 AppRoutes.get('/gifts', authenticate, giftsController.getGifts)
