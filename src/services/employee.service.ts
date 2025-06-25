@@ -55,4 +55,30 @@ export class EmployeeService {
       createdBy: safeUser
     }
   }
+
+  async deleteEmployee(employeeId: string) {
+    const employee = await this.repository.findOne({
+      where: {
+        employeeId: employeeId
+      }
+    })
+
+    if (!employee) {
+      throw new Error('Employee not found')
+    }
+
+    await this.repository.remove(employee)
+  }
+
+  async updateEmployee(employeeId: string, data: Partial<Employee>) {
+    const existingEmployee = await this.repository.findOneBy({ employeeId })
+
+    if (!existingEmployee) {
+      throw new Error('Employee not found')
+    }
+
+    const updatedEmployee = this.repository.merge(existingEmployee, data)
+
+    return await this.repository.save(updatedEmployee)
+  }
 }
