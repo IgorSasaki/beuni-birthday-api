@@ -60,7 +60,6 @@ O token JWT é gerado no login e contém o `userId` que é injetado em `request.
 Criação de usuário
 
 ```json
-Request Body:
 {
   "name": "Igor Sasaki",
   "email": "igor@email.com",
@@ -75,7 +74,6 @@ Status: `201 Created`
 Login do usuário
 
 ```json
-Request Body:
 {
   "email": "igor@email.com",
   "password": "senha"
@@ -118,7 +116,6 @@ Response:
 Criação de um funcionário
 
 ```json
-Request Body:
 {
   "fullName": "João Silva",
   "birthDate": "1995-06-15",
@@ -148,24 +145,17 @@ Query params suportados:
 - `month`: número do mês (1–12)
 - `status`: `PENDING`, `SENT`, `DELIVERED`
 
-Response:
-
-```json
-[
-  {
-    "employeeId": "uuid",
-    "fullName": "...",
-    "position": "frontend-developer",
-    "department": "ti",
-    "birthDate": "1995-06-15",
-    "status": "PENDING"
-  }
-]
-```
-
 #### `GET /employees/:employeeId`
 
-Detalhe do funcionário
+Busca de um funcionário específico
+
+#### `PUT /employees/:employeeId`
+
+Atualização de dados de um funcionário
+
+#### `DELETE /employees/:employeeId`
+
+Remoção de um funcionário
 
 ---
 
@@ -176,7 +166,6 @@ Detalhe do funcionário
 Criação de requisição de brinde
 
 ```json
-Request Body:
 {
   "employeeId": "uuid"
 }
@@ -191,7 +180,6 @@ Listagem de todos os brindes do usuário autenticado
 Atualiza o status do brinde
 
 ```json
-Request Body:
 {
   "status": "DELIVERED" | "SENT"
 }
@@ -232,5 +220,3 @@ Request Body:
 ## ✉️ Contato
 
 Igor Sasaki – Desenvolvedor Full Stack | [github.com/IgorSasaki](https://github.com/IgorSasaki)
-
-Se precisar de ajuda para montar a apresentação ou gravar o pitch técnico, posso gerar isso pra você também.
