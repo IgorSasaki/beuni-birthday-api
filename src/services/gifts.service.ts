@@ -81,4 +81,21 @@ export class GiftsService {
 
     return await this.repository.save(gift)
   }
+
+  public async deleteGiftByEmployeeId(employeeId: string) {
+    const gift = await this.repository.findOne({
+      relations: ['createdBy', 'sendTo'],
+      where: {
+        sendTo: {
+          employeeId: employeeId
+        }
+      }
+    })
+
+    if (!gift) {
+      throw new Error('Gift not found')
+    }
+
+    await this.repository.remove(gift)
+  }
 }
