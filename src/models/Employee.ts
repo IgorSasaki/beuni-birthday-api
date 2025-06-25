@@ -10,6 +10,7 @@ export interface Employee {
   department: string
   employeeId: string
   fullName: string
+  giftId?: string
   giftSize: 'P' | 'M' | 'G' | 'GG' | 'XG'
   neighborhood: string
   number: string
