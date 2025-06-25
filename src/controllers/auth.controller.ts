@@ -27,8 +27,10 @@ export class AuthController {
 
     try {
       const userExists = await userService.findUserByEmail(email)
+
       if (userExists) {
         response.status(409).json({ message: 'User already exists' })
+        return
       }
 
       const encryptedPassword = CryptoJS.SHA256(password).toString()

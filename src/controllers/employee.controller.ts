@@ -7,6 +7,7 @@ import { EmployeeService } from '@/services/employee.service'
 import { GiftsService } from '@/services/gifts.service'
 import { normalizeString } from '@/utils/helpers/normalizeString'
 import { createEmployeeSchema } from '@/validators/create-employee.validator'
+import { updateEmployeeSchema } from '@/validators/update-employee.validator'
 
 const employeeRepository = AppDataSource.getRepository(Employee)
 const employeeService = new EmployeeService(employeeRepository)
@@ -119,6 +120,7 @@ export class EmployeeController {
 
           return {
             ...employee,
+            giftId: gift?.giftId ?? null,
             status: gift?.status ?? 'NOT_REQUESTED'
           }
         })
@@ -157,6 +159,7 @@ export class EmployeeController {
 
       const employeeWithStatus = {
         ...employee,
+        giftId: gift?.giftId ?? null,
         status: gift ? gift.status : 'NOT_REQUESTED'
       }
 
@@ -164,6 +167,86 @@ export class EmployeeController {
     } catch (error) {
       console.error('[EmployeeController::getEmployeeById]', error)
 
+      response.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  public async deleteEmployee(request: Request, response: Response) {
+    const { employeeId } = request.params
+
+    try {
+      const employee = await employeeService.getEmployeeById(employeeId)
+
+      if (!employee) {
+        response.status(404).json({ message: 'Employee not found' })
+        return
+      }
+
+      await giftsService.deleteGiftByEmployeeId(employeeId)
+
+      await employeeService.deleteEmployee(employeeId)
+
+      response.status(204).send()
+    } catch (error) {
+      console.error('[EmployeeController::deleteEmployee]', error)
+
+      response.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  public async updateEmployee(request: Request, response: Response) {
+    const { employeeId } = request.params
+    const validation = updateEmployeeSchema.safeParse(request.body)
+
+    if (!validation.success) {
+      response.status(400).json({
+        errors: validation.error.flatten().fieldErrors,
+        message: 'Validation failed'
+      })
+      return
+    }
+
+    try {
+      const employee = await employeeService.getEmployeeById(employeeId)
+
+      if (!employee) {
+        response.status(404).json({ message: 'Employee not found' })
+        return
+      }
+
+      const {
+        birthDate,
+        cep,
+        city,
+        complement,
+        department,
+        fullName,
+        giftSize,
+        neighborhood,
+        number,
+        position,
+        state,
+        street
+      } = validation.data
+
+      const updated = await employeeService.updateEmployee(employeeId, {
+        birthDate: new Date(birthDate),
+        cep,
+        city,
+        complement,
+        department,
+        fullName,
+        giftSize,
+        neighborhood,
+        number,
+        position,
+        state,
+        street
+      })
+
+      response.status(200).json(updated)
+    } catch (error) {
+      console.error('[EmployeeController::updateEmployee]', error)
       response.status(500).json({ message: 'Internal server error' })
     }
   }
